@@ -1,106 +1,107 @@
-🌍 AI-Trip-Planner
+🌍 AI Trip Planner
+Your Personal AI-Powered Travel Planning Assistant
 
-An AI-powered travel planning assistant that generates personalized itineraries, destination suggestions, activities, accommodations, and complete trip plans using natural-language conversations.
-
-📌 Table of Contents
-
-Features
-
-Architecture & Tech Stack
-
-Getting Started
-
-Usage
-
-Configuration
-
-Contributing
-
-Future Enhancements
-
+<p align="center"> <b>Plan smarter. Travel better. Powered by AI.</b> </p> <p align="center"> <img src="https://img.shields.io/badge/Framework-Node.js-green" /> <img src="https://img.shields.io/badge/Language-Python-blue" /> <img src="https://img.shields.io/badge/Frontend-EJS-orange" /> <img src="https://img.shields.io/badge/AI-Agents-red" /> <img src="https://img.shields.io/github/repo-size/medhansh209/AI-Trip-Planner" /> </p>
 ✨ Features
 
-🗣️ Conversational trip planning using AI
+🗣️ AI-powered conversational trip planning
 
-🧠 Python-based AI agents for itinerary generation
+🧠 Python AI agents for itinerary generation
 
 🔗 Node.js backend for API communication
 
 🧩 Modular project structure for easy expansion
 
-🌐 Easily extendable with more destinations and activity modules
+🌍 Supports multi-destination and personalized plans
+
+🎯 Provides day-wise itineraries, hotel suggestions & travel routes
 
 🏗️ Architecture & Tech Stack
+Backend
 
-Python – AI agent logic, NLP, itinerary generation
+Node.js
 
-Node.js + Express – Backend API
+Express.js
 
-EJS / HTML / CSS / JavaScript – Front-end
+AI Engine
 
-Project Structure:
+Python
 
-ai-agents-python → AI logic and travel modules
+Custom AI travel-planning agents
 
-backend-node → API routes, controllers, integration layer
+Natural Language Processing (NLP)
+
+Frontend
+
+EJS Templates
+
+HTML, CSS, JavaScript
+
+Project Structure
+
+ai-agents-python → AI logic and itinerary generator
+
+backend-node → APIs, routes, controllers
 
 🚀 Getting Started
 Prerequisites
 
-Node.js (v14 or above)
+Node.js (v14+)
 
-Python (v3.8 or above)
+Python (v3.8+)
 
 Required dependencies installed
 
-Travel/hotel API keys (optional)
+Optional: API keys for hotels or flight data
 
-Installation Overview
+Setup Process
 
-Clone this repository
+Clone the repository
 
-Install dependencies inside the backend and AI folders
+Install Node.js dependencies
 
-Set up environment variables
+Install Python dependencies
 
-Start the Node.js backend
+Add environment variables
+
+Start the backend server
 
 Start the Python AI agent service
 
-🧑‍💻 Usage
-
 Open the application in your browser
 
-Enter any query such as:
+🧑‍💻 Usage
+
+Enter a query such as:
 “Plan a 7-day budget trip to Italy for two people.”
 
-The system processes your preferences and generates:
+The system will generate:
 
-A full itinerary
+A complete day-wise itinerary
 
-Activities
+Activities & attractions
 
-Hotel suggestions
+Hotel options
 
-Transport routes
+Travel routes
 
-Adjust your inputs anytime to regenerate results
+Modify your inputs and regenerate results anytime.
 
 ⚙️ Configuration
 
-You can configure:
+You can configure the following using environment variables:
 
 AI agent service URL
 
-API keys for hotels/flights
+Travel/hotel API keys
 
-Default budgets
+Default budget settings
 
 Supported regions, languages, currencies
 
-Backend / AI server ports
+Backend & AI service ports
 
-Use .env files to store these values.
+Create a .env file to store your keys and sensitive data.
 
 🤝 Contributing
 
@@ -108,24 +109,26 @@ You can contribute by:
 
 Reporting issues
 
-Suggesting new features
+Suggesting improvements
 
-Improving AI logic or responses
+Enhancing AI logic
 
-Enhancing UI/UX
+Improving UI/UX
 
-Adding integrations with live travel APIs
+Adding support for more countries and APIs
 
 🚧 Future Enhancements
 
-User login & saved trips
+User accounts & saved itineraries
 
-Live flight and hotel price integration
+Live flight and hotel integrations
+
+PDF itinerary export
 
 Multi-language support
 
-Export itinerary as PDF
-
 Mobile app version
 
-Smarter AI optimization for cost, time, and preferences
+Smarter AI optimization for budget, time & preferences
+
+<p align="center"> Made with ❤️ by <b>Medhansh</b> </p>
