@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trip Planner Test</title>
+</head>
+<body>
+  <h2>AI Trip Planner</h2>
+  <form id="tripForm">
+    <input type="text" id="origin" placeholder="Origin" value="Mumbai"><br><br>
+    <input type="text" id="destination" placeholder="Destination" value="Goa"><br><br>
+    <input type="number" id="budget" placeholder="Budget" value="35000"><br><br>
+    <input type="number" id="travelers" placeholder="Travelers" value="5"><br><br>
+    <input type="text" id="interests" placeholder="Interests (comma-separated)" value="beach,food"><br><br>
+    <button type="submit">Plan Trip</button>
+  </form>
+
+  <pre id="result"></pre>
+
+  <script>
+    document.getElementById("tripForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const body = {
+        origin: document.getElementById("origin").value,
+        destination: document.getElementById("destination").value,
+        budget: Number(document.getElementById("budget").value),
+        travelers: Number(document.getElementById("travelers").value),
+        interests: document.getElementById("interests").value.split(",").map(i => i.trim())
+      };
+
+      const res = await fetch("http://127.0.0.1:8000/plan-trip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+
+      const data = await res.json();
+      document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+    };
+  </script>
+</body>
+</html>

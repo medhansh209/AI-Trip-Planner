@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Your Dream Trip</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .animate-slide-in-left {
+            animation: slideInLeft 0.6s ease-out forwards;
+        }
+
+        .floating-icon {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .interest-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interest-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .interest-btn:hover::before {
+            width: 200px;
+            height: 200px;
+        }
+
+        .interest-btn.selected {
+            background: linear-gradient(135deg, #2563eb, #06b6d4);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .interest-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group input,
+        .input-group select {
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+        }
+
+        .form-icon {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .input-group input:focus ~ .form-icon,
+        .input-group select:focus ~ .form-icon {
+            transform: translateY(-50%) scale(1.2);
+            color: #2563eb;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .submit-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .submit-btn:hover::after {
+            width: 400px;
+            height: 400px;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .pulse-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid #3b82f6;
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #3b82f6, #06b6d4, transparent);
+            margin: 2rem 0;
+        }
+
+        .label-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            margin-right: 12px;
+        }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+
+        .info-card {
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50">
+    
+    <!-- Enhanced Header -->
+    <div class="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 text-white py-10 px-4 shadow-2xl relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full filter blur-3xl"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-300 rounded-full filter blur-3xl"></div>
+        </div>
+        
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="flex items-center gap-4 mb-3">
+                <div class="relative">
+                    <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center floating-icon">
+                        <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="pulse-ring" style="width: 70px; height: 70px; top: -3px; left: -3px;"></div>
+                </div>
+                <div>
+                    <h1 class="text-5xl font-black">Plan Your Dream Trip</h1>
+                    <p class="text-blue-100 mt-2 text-lg">✨ Share your preferences and let AI create your perfect itinerary</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Container -->
+    <div class="max-w-6xl mx-auto px-4 py-10">
+        <form action="/plan-trip" method="POST" class="glass-effect rounded-3xl shadow-2xl p-10 animate-fade-in-up">
+            
+            <!-- Section: Destination Details -->
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold gradient-text mb-6 flex items-center gap-3">
+                    <span class="text-4xl">🌍</span>
+                    Where Are You Going?
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Origin -->
+                    <div class="input-group stagger-1 animate-fade-in-up">
+                        <label class="block text-gray-700 font-bold mb-3 flex items-center">
+                            <span class="label-icon shadow-lg">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                </svg>
+                            </span>
+                            Starting Point
+                        </label>
+                        <input
+                            type="text"
+                            name="origin"
+                            placeholder="From where? (e.g., Mumbai)"
+                            class="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all text-lg"
+                            required
+                        />
+                        <svg class="form-icon w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                        </svg>
+                    </div>
+
+                    <!-- Destination -->
+                    <div class="input-group stagger-2 animate-fade-in-up">
+                        <label class="block text-gray-700 font-bold mb-3 flex items-center">
+                            <span class="label-icon shadow-lg">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                                </svg>
+                            </span>
+                            Dream Destination
+                        </label>
+                        <input
+                            type="text"
+                            name="destination"
+                            placeholder="Where to? (e.g., Goa)"
+                            class="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all text-lg"
+                            required
+                        />
+                        <svg class="form-icon w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <!-- Section: Travel Details -->
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold gradient-text mb-6 flex items-center gap-3">
+                    <span class="text-4xl">👥</span>
+                    Travel Details
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Travelers -->
+                    <div class="input-group stagger-3 animate-fade-in-up">
+                        <label class="block text-gray-700 font-bold mb-3 flex items-center">
+                            <span class="label-icon shadow-lg">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                            </span>
+                            Number of Travelers
+                        </label>
+                        <select
+                            name="travelers"
+                            class="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all text-lg appearance-none cursor-pointer"
+                        >
+                            <% 
+                            const selectedTravellers = typeof formData !== 'undefined' ? formData.travellers || 1 : 1;
+                            for(let i = 1; i <= 8; i++) { 
+                            %>
+                                <option value="<%= i %>" <%= i == selectedTravellers ? 'selected' : '' %>>
+                                    <%= i %> <%= i === 1 ? 'Traveler' : 'Travelers' %>
+                                </option>
+                            <% } %>
+                        </select>
+                        <svg class="form-icon w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+
+                    <!-- Budget -->
+                    <div class="input-group stagger-4 animate-fade-in-up">
+                        <label class="block text-gray-700 font-bold mb-3 flex items-center">
+                            <span class="label-icon shadow-lg">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </span>
+                            Your Budget (INR)
+                        </label>
+                        <input
+                            type="number"
+                            name="budget"
+                            value="<%= typeof formData !== 'undefined' ? formData.budget || '' : '' %>"
+                            placeholder="e.g., 50000"
+                            class="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-all text-lg"
+                            required
+                        />
+                        <svg class="form-icon w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 8h6m-5 0a3 3 0 110 6H9l3 3m-3-6h6m6 1a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <!-- Section: Interests -->
+            <div class="mb-10 animate-slide-in-left">
+                <h2 class="text-3xl font-bold gradient-text mb-6 flex items-center gap-3">
+                    <span class="text-4xl">❤️</span>
+                    What Interests You?
+                </h2>
+                
+                <p class="text-gray-600 mb-6 text-lg">Select all that apply to personalize your trip</p>
+                
+                <div class="flex flex-wrap gap-4" id="interests-container">
+                    <% 
+                    const interestOptions = [
+                        { name: 'Adventure', icon: '🏔️' },
+                        { name: 'Beach', icon: '🏖️' },
+                        { name: 'Culture', icon: '🎭' },
+                        { name: 'Food', icon: '🍜' },
+                        { name: 'Heritage', icon: '🏛️' },
+                        { name: 'Mountains', icon: '⛰️' },
+                        { name: 'Nature', icon: '🌿' },
+                        { name: 'Shopping', icon: '🛍️' },
+                        { name: 'Wildlife', icon: '🦁' },
+                        { name: 'Spiritual', icon: '🕉️' }
+                    ];
+                    const selectedInterests = typeof formData !== 'undefined' && formData.interests ? formData.interests : [];
+                    interestOptions.forEach(interest => { 
+                        const isSelected = selectedInterests.includes(interest.name);
+                    %>
+                        <button
+                            type="button"
+                            class="interest-btn px-6 py-3 rounded-2xl font-bold transition-all text-lg <%= isSelected ? 'selected' : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-blue-300' %>"
+                            data-interest="<%= interest.name %>"
+                            onclick="toggleInterest(this)"
+                        >
+                            <span class="text-2xl mr-2"><%= interest.icon %></span>
+                            <%= interest.name %>
+                        </button>
+                    <% }); %>
+                </div>
+                
+                <!-- Hidden input to store selected interests -->
+                <input type="hidden" name="interests" id="interests-input" value="<%= typeof formData !== 'undefined' && formData.interests ? formData.interests.join(',') : '' %>">
+            </div>
+
+            <!-- Submit Button -->
+            <button
+                type="submit"
+                class="submit-btn w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-5 rounded-2xl font-black text-xl hover:from-blue-700 hover:to-cyan-600 transition-all shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 relative overflow-hidden"
+            >
+                <span class="relative z-10 flex items-center justify-center gap-3">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    Find My Perfect Trip
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                </span>
+            </button>
+        </form>
+
+        <!-- Selected Info Display -->
+        <% if (typeof formData !== 'undefined' && formData.interests && formData.interests.length > 0) { %>
+        <div class="mt-8 glass-effect rounded-2xl p-8 shadow-xl info-card animate-fade-in-up">
+            <div class="flex items-start gap-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Your Selected Preferences</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <% formData.interests.forEach(interest => { %>
+                            <span class="bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-800 px-4 py-2 rounded-full font-semibold border-2 border-blue-300">
+                                <%= interest %>
+                            </span>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- Info Cards -->
+        <div class="grid md:grid-cols-3 gap-6 mt-10">
+            <div class="info-card glass-effect rounded-2xl p-6 text-center shadow-lg">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
+                    <svg class="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-800 text-lg mb-2">AI-Powered</h3>
+                <p class="text-gray-600">Advanced algorithms create personalized itineraries</p>
+            </div>
+
+            <div class="info-card glass-effect rounded-2xl p-6 text-center shadow-lg">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
+                    <svg class="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-800 text-lg mb-2">Instant Results</h3>
+                <p class="text-gray-600">Get your travel plan in seconds</p>
+            </div>
+
+            <div class="info-card glass-effect rounded-2xl p-6 text-center shadow-lg">
+                <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
+                    <svg class="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-800 text-lg mb-2">Curated by Experts</h3>
+                <p class="text-gray-600">Handpicked by travel professionals</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-16 bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="text-blue-100 text-lg">✈️ Start your journey with us • Made with ❤️ for travelers worldwide</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleInterest(button) {
+            button.classList.toggle('selected');
+            button.classList.toggle('bg-white');
+            button.classList.toggle('border-2');
+            button.classList.toggle('border-gray-200');
+            button.classList.toggle('text-gray-700');
+            button.classList.toggle('hover:border-blue-300');
+            
+            // Update hidden input with selected interests
+            const selectedButtons = document.querySelectorAll('.interest-btn.selected');
+            const interests = Array.from(selectedButtons).map(btn => btn.dataset.interest);
+            document.getElementById('interests-input').value = interests.join(',');
+        }
+
+        // Add ripple effect on form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const btn = this.querySelector('.submit-btn');
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+            }, 200);
+        });
+    </script>
+</body>
+</html>
