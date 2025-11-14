@@ -130,5 +130,3 @@ Multi-language support
 Mobile app version
 
 Smarter AI optimization for budget, time & preferences
-
-<p align="center"> Made with ❤️ by <b>Medhansh</b> </p>
