@@ -1,7 +1,6 @@
 from typing import Dict, Any
 from .optimizer_agent import OptimizerAgent
 
-# ✅ use the new, non-deprecated LangChain import
 try:
     from langchain_community.chat_models import ChatOpenAI
     from langchain.prompts import PromptTemplate
@@ -24,7 +23,6 @@ class GeneratorAgent:
         self.openai_api_key = openai_api_key
 
         if self.use_llm:
-            # Setup LangChain LLM (e.g., GPT-4 or GPT-3.5)
             self.llm = ChatOpenAI(
                 model="gpt-4o-mini",
                 temperature=0.7,
@@ -87,21 +85,17 @@ class GeneratorAgent:
 )
             self.chain = LLMChain(llm=self.llm, prompt=self.template)
 
-    # ------------------------------------------------------------
 
     def generate_itinerary(self, optimized_output: Dict[str, Any]) -> Dict[str, Any]:
         """Convert optimized itinerary into readable text."""
         optimized_plan = optimized_output.get("optimized_plan", [])
         final_text = ""
 
-        # Fallback if plan is empty
         if not optimized_plan:
             return {
                 "text": "No itinerary found. Please provide valid optimized data.",
                 "summary": None,
             }
-
-        # --- Option 1: Without LLM (plain text)
         if not self.use_llm:
             lines = [" **Your Optimized Travel Itinerary**\n"]
             for day_plan in optimized_plan:
@@ -113,7 +107,6 @@ class GeneratorAgent:
             final_text = "\n".join(lines)
             summary = "Optimized itinerary successfully generated (text-based)."
 
-        # --- Option 2: With LLM (narrative)
         else:
             plan_text = str(optimized_output)
             final_text = self.chain.run(plan=plan_text)
@@ -125,7 +118,6 @@ class GeneratorAgent:
             "summary": summary,
         }
 
-    # ------------------------------------------------------------
 
     def run_pipeline(self, user_input: Dict[str, Any]) -> Dict[str, Any]:
         """(Optional) Run Optimizer + Generator together."""
