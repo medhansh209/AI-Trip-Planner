@@ -10,10 +10,10 @@ class OptimizerAgent:
 
     def __init__(self, weights: Dict[str, float] = None):
         self.weights = weights or {
-            "rating": 0.4,         # importance of place rating
-            "cost": 0.3,           # lower cost = better
-            "time": 0.2,           # shorter duration = better
-            "interest_bonus": 0.1   # bonus for matching user interests
+            "rating": 0.4,        
+            "cost": 0.3,          
+            "time": 0.2,          
+            "interest_bonus": 0.1  
         }
 
     # ------------------------------------------------------------
@@ -30,7 +30,6 @@ class OptimizerAgent:
         cost_norm = 1.0 - min(cost / budget, 1.0)
         time_norm = 1.0 - min(time_required / 8.0, 1.0)
 
-        # Bonus for interest match
         interest_bonus = 1.0 if category in preferences.get("interests", []) else 0.0
 
         score = (
@@ -41,7 +40,6 @@ class OptimizerAgent:
         )
         return round(score, 4)
 
-    # ------------------------------------------------------------
 
     def pack_days(
         self,
@@ -72,7 +70,6 @@ class OptimizerAgent:
 
         return itinerary
 
-    # ------------------------------------------------------------
 
     def optimize_itinerary(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -84,21 +81,17 @@ class OptimizerAgent:
         if not activities:
             return {"optimized_plan": [], "score": 0.0, "error": "No activities found"}
 
-        # Preferences
         prefs = {
             "budget": data.get("budget", 30000),
             "interests": data.get("interests", []),
             "days": data.get("days", 2),
             "daily_hours": data.get("daily_hours", 8)
         }
-
-        # Score and sort activities
         for act in activities:
             act["score"] = self.score_place(act, prefs)
 
         sorted_acts = sorted(activities, key=lambda x: x["score"], reverse=True)
 
-        # Group into days
         itinerary = self.pack_days(sorted_acts, prefs["days"], prefs["daily_hours"])
 
         avg_score = sum(a["score"] for a in sorted_acts) / len(sorted_acts)
