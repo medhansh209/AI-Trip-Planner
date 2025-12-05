@@ -56,19 +56,13 @@ Optional: API keys for hotels or flight data
 
 Setup Process
 
-Clone the repository
-
-Install Node.js dependencies
-
-Install Python dependencies
-
-Add environment variables
-
-Start the backend server
-
-Start the Python AI agent service
-
-Open the application in your browser
+1. Clone the repository
+2. Install Node.js dependencies
+3. Install Python dependencies
+4. Add environment variables
+5. Start the backend server
+6. Start the Python AI agent service
+7. Open the application in your browser
 
 🧑‍💻 Usage
 
@@ -97,7 +91,7 @@ Travel/hotel API keys
 
 Default budget settings
 
-Supported regions, languages, currencies
+Supported regions, languages, and currencies
 
 Backend & AI service ports
 
